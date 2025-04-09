@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Söz Patlat!</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Söz Patlat!</h1>
+    <p>Espri mi? Deyim mi? Atasözü mü? Patlat bir tane!</p>
+
+    <div class="kategori-container">
+      <button class="kategori-btn" onclick="kategoriSec('espri')">Espri</button>
+      <button class="kategori-btn" onclick="kategoriSec('atasozu')">Atasözü</button>
+      <button class="kategori-btn" onclick="kategoriSec('deyim')">Deyim</button>
+    </div>
+
+    <button id="rastgeleBtn" onclick="rastgeleSozGetir()">Rastgele Söyle</button>
+    
+    <div id="sonuc">Bir kategori seç ve butona bas!</div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2024 Söz Patlat! - Tüm Hakları Saklıdır</p>
+      <p class="developer-info">Geliştirici: <a href="https://github.com/Eyp0" target="_blank" rel="noopener noreferrer">Eyüp Korkmaz</a></p>
+    </div>
+  </footer>
+
+  <script>
+    let sozler = {};
+    let seciliKategori = null;
+
+    // Sayfa yüklendiğinde JSON'ı yükle
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('sozler.json')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('JSON dosyası bulunamadı');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('JSON yüklendi:', data);
+          sozler = data;
+        })
+        .catch(error => {
+          console.error('JSON yükleme hatası:', error);
+          document.getElementById('sonuc').textContent = 'Sözler yüklenirken bir hata oluştu: ' + error.message;
+        });
+    });
+
+    function kategoriSec(kategori) {
+      console.log('Seçilen kategori:', kategori);
+      seciliKategori = kategori;
+      document.querySelectorAll('.kategori-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+    }
+
+    function rastgeleSozGetir() {
+      console.log('Mevcut sözler:', sozler);
+      console.log('Seçili kategori:', seciliKategori);
+      
+      if (!seciliKategori) {
+        document.getElementById('sonuc').textContent = 'Lütfen önce bir kategori seç!';
+        return;
+      }
+      
+      if (!sozler[seciliKategori]) {
+        document.getElementById('sonuc').textContent = 'Seçilen kategoride söz bulunamadı!';
+        return;
+      }
+
+      const liste = sozler[seciliKategori];
+      const rastgele = liste[Math.floor(Math.random() * liste.length)];
+      document.getElementById('sonuc').textContent = rastgele;
+    }
+  </script>
+</body>
+</html>
