@@ -78,6 +78,7 @@
   <script>
     let sozler = {};
     let seciliKategori = null;
+    let jsonYuklendi = false;
 
     document.addEventListener('DOMContentLoaded', function() {
       fetch('sozler.json')
@@ -90,10 +91,11 @@
         .then(data => {
           console.log('JSON yüklendi:', data);
           sozler = data;
+          jsonYuklendi = true;
         })
         .catch(error => {
           console.error('JSON yükleme hatası:', error);
-          document.getElementById('sonuc').textContent = 'Sözler yüklenirken bir hata oluştu: ' + error.message;
+          document.getElementById('sonuc').innerHTML = '<div class="sonuc-icerik"><span>Sözler yüklenirken bir hata oluştu: ' + error.message + '</span></div>';
         });
     });
 
@@ -107,8 +109,10 @@
     }
 
     function rastgeleSozGetir() {
-      console.log('Mevcut sözler:', sozler);
-      console.log('Seçili kategori:', seciliKategori);
+      if (!jsonYuklendi) {
+        document.getElementById('sonuc').innerHTML = '<div class="sonuc-icerik"><span>Sözler henüz yüklenmedi, lütfen bekleyin...</span></div>';
+        return;
+      }
       
       if (!seciliKategori) {
         document.getElementById('sonuc').innerHTML = '<div class="sonuc-icerik"><span>Lütfen önce bir kategori seç!</span></div>';
