@@ -119,15 +119,22 @@
         return;
       }
       
-      if (!sozler[seciliKategori]) {
+      if (!sozler || !sozler[seciliKategori] || !sozler[seciliKategori].sozler || !Array.isArray(sozler[seciliKategori].sozler)) {
+        document.getElementById('sonuc').innerHTML = '<div class="sonuc-icerik"><span>Seçilen kategoride söz bulunamadı veya veri yapısı hatalı!</span></div>';
+        return;
+      }
+
+      const liste = sozler[seciliKategori].sozler;
+      if (liste.length === 0) {
         document.getElementById('sonuc').innerHTML = '<div class="sonuc-icerik"><span>Seçilen kategoride söz bulunamadı!</span></div>';
         return;
       }
 
-      let rastgele;
-      const liste = sozler[seciliKategori].sozler;
-      rastgele = liste[Math.floor(Math.random() * liste.length)];
-      const anlam = sozler[seciliKategori].anlamlar[rastgele] || 'Anlam bulunamadı.';
+      const rastgele = liste[Math.floor(Math.random() * liste.length)];
+      const anlam = sozler[seciliKategori].anlamlar && sozler[seciliKategori].anlamlar[rastgele] 
+        ? sozler[seciliKategori].anlamlar[rastgele] 
+        : 'Anlam bulunamadı.';
+
       document.getElementById('sonuc').innerHTML = `
         <div class="sonuc-icerik">
           <span id="sozMetni">${rastgele}</span>
