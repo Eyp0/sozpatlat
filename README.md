@@ -13,8 +13,8 @@
 ## 🛠️ Kullanılan Teknolojiler
 
 - HTML5 & CSS3  
-- JavaScript (Vanilla)  
-- (İsteğe bağlı: TailwindCSS / Bootstrap gibi framework varsa buraya eklenebilir)
+- JavaScript 
+- JSON
 
-## 📂 Proje Yapısı
+
 
