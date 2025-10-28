@@ -10,24 +10,17 @@
   <meta name="language" content="Turkish">
   <meta name="revisit-after" content="7 days">
   <meta name="generator" content="Söz Patlat">
-  
-  
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://sozpatlat.github.io/">
   <meta property="og:title" content="Söz Patlat! - Espri, Atasözü ve Deyimler">
   <meta property="og:description" content="Espri, atasözü ve deyimler için rastgele sözler patlatın! Eğlenceli ve öğretici içerikler için Söz Patlat!">
   <meta property="og:image" content="https://sozpatlat.github.io/favicon.png">
-
-
   <meta property="twitter:card" content="summary_large_image">  
   <meta property="twitter:url" content="https://sozpatlat.github.io/">
   <meta property="twitter:title" content="Söz Patlat! - Espri, Atasözü ve Deyimler">
   <meta property="twitter:description" content="Espri, atasözü ve deyimler için rastgele sözler patlatın! Eğlenceli ve öğretici içerikler için Söz Patlat!">
   <meta property="twitter:image" content="https://sozpatlat.github.io/favicon.png">
-
- 
   <link rel="canonical" href="https://sozpatlat.github.io/">
-
   <title>Söz Patlat!</title>
   <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
   <link rel="icon" href="favicon.png" type="image/x-icon">
@@ -48,152 +41,22 @@
   <div class="container">
     <h1>Söz Patlat!</h1>
     <p>Espri mi? Deyim mi? Atasözü mü? Patlat bir tane!</p>
-
     <div class="kategori-container">
-      <button class="kategori-btn" onclick="kategoriSec('espri')">Espri</button>
-      <button class="kategori-btn" onclick="kategoriSec('atasozu')">Atasözü</button>
-      <button class="kategori-btn" onclick="kategoriSec('deyim')">Deyim</button>
-      <button class="kategori-btn" onclick="kategoriSec('romantik')">Romantik</button>
-      <button class="kategori-btn" onclick="kategoriSec('bilimsel')">Bilimsel</button>
+      <button class="kategori-btn" data-kategori="espri" onclick="kategoriSec('espri')">Espri</button>
+      <button class="kategori-btn" data-kategori="atasozu" onclick="kategoriSec('atasozu')">Atasözü</button>
+      <button class="kategori-btn" data-kategori="deyim" onclick="kategoriSec('deyim')">Deyim</button>
+      <button class="kategori-btn" data-kategori="romantik" onclick="kategoriSec('romantik')">Romantik</button>
+      <button class="kategori-btn" data-kategori="bilimsel" onclick="kategoriSec('bilimsel')">Bilimsel</button>
     </div>
-
     <button id="rastgeleBtn" onclick="rastgeleSozGetir()">Rastgele Söyle</button>
-    
-    <div id="sonuc" class="sonuc-container">
-      <p id="sozMetni"></p>
-      <div class="anlam-aciklama">
-        <p id="anlamMetni"></p>
-      </div>
-    </div>
+    <div id="sonuc"></div>
   </div>
-
   <footer>
     <div class="footer-content">
       <p>&copy; 2025 Söz Patlat! - Tüm Hakları Saklıdır</p>
       <p class="developer-info">Geliştirici: <a href="https://eyupkorkmaz.com.tr/" target="_blank" rel="noopener noreferrer">Eyüp Korkmaz</a></p>
     </div>
   </footer>
-
-  <script>
-    let sozler = {};
-    let seciliKategori = null;
-    let jsonYuklendi = false;
-    let sonSoz = null;
-    let patlamaSayisi = 0;
-
-    document.addEventListener('DOMContentLoaded', function() {
-      fetch('sozler.json')
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('JSON dosyası bulunamadı');
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log('JSON yüklendi:', data);
-          sozler = data;
-          jsonYuklendi = true;
-          document.getElementById('sonuc').innerHTML = '<div class="sonuc-icerik"><span>Hadi bir söz patlatalım! 🎉</span></div>';
-        })
-        .catch(error => {
-          console.error('JSON yükleme hatası:', error);
-          document.getElementById('sonuc').innerHTML = '<div class="sonuc-icerik"><span>Sözler yüklenirken bir hata oluştu: ' + error.message + '</span></div>';
-        });
-    });
-
-    function kategoriSec(kategori) {
-      console.log('Seçilen kategori:', kategori);
-      seciliKategori = kategori;
-      document.querySelectorAll('.kategori-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      event.target.classList.add('active');
-      
-      // Kategori seçildiğinde eğlenceli bir mesaj göster
-      const mesajlar = [
-        "Harika seçim! 🎯",
-        "Bu kategori çok güzel! 🌟",
-        "Hadi bakalım ne çıkacak? 🎲",
-        "Süper bir seçim! 🚀",
-        "Tamam, şimdi patlatıyoruz! 💥"
-      ];
-      const rastgeleMesaj = mesajlar[Math.floor(Math.random() * mesajlar.length)];
-      document.getElementById('sonuc').innerHTML = `<div class="sonuc-icerik"><span>${rastgeleMesaj}</span></div>`;
-    }
-
-    function rastgeleSozGetir() {
-      if (!jsonYuklendi) {
-        document.getElementById('sonuc').innerHTML = '<div class="sonuc-icerik"><span>Sözler henüz yüklenmedi, lütfen bekleyin...</span></div>';
-        return;
-      }
-      
-      if (!seciliKategori) {
-        document.getElementById('sonuc').innerHTML = '<div class="sonuc-icerik"><span>Lütfen önce bir kategori seç!</span></div>';
-        return;
-      }
-      
-      if (!sozler || !sozler[seciliKategori] || !sozler[seciliKategori].sozler || !Array.isArray(sozler[seciliKategori].sozler)) {
-        document.getElementById('sonuc').innerHTML = '<div class="sonuc-icerik"><span>Seçilen kategoride söz bulunamadı veya veri yapısı hatalı!</span></div>';
-        return;
-      }
-
-      const liste = sozler[seciliKategori].sozler;
-      if (liste.length === 0) {
-        document.getElementById('sonuc').innerHTML = '<div class="sonuc-icerik"><span>Seçilen kategoride söz bulunamadı!</span></div>';
-        return;
-      }
-
-      // Aynı sözü tekrar göstermemek için kontrol
-      let rastgele;
-      do {
-        rastgele = liste[Math.floor(Math.random() * liste.length)];
-      } while (rastgele === sonSoz && liste.length > 1);
-      
-      sonSoz = rastgele;
-      patlamaSayisi++;
-
-      const anlam = sozler[seciliKategori].anlamlar && sozler[seciliKategori].anlamlar[rastgele] 
-        ? sozler[seciliKategori].anlamlar[rastgele] 
-        : 'Anlam bulunamadı.';
-
-      // Patlama efekti için emoji ekle
-      const patlamaEmojileri = ['💥', '✨', '🎉', '🌟', '🎊', '💫'];
-      const patlamaEmoji = patlamaEmojileri[Math.floor(Math.random() * patlamaEmojileri.length)];
-
-      document.getElementById('sonuc').innerHTML = `
-        <div class="sonuc-icerik">
-          <span id="sozMetni">${rastgele} ${patlamaEmoji}</span>
-          <span id="anlamIkonu" class="anlam-ikonu">?</span>
-          <div id="anlamAciklama" class="anlam-aciklama">${anlam}</div>
-        </div>
-      `;
-      
-      // Patlama sayısını göster
-      if (patlamaSayisi % 5 === 0) {
-        setTimeout(() => {
-          document.getElementById('sonuc').innerHTML += `
-            <div class="tebrik-mesaji">
-              🎉 Tebrikler! ${patlamaSayisi} söz patlattın! 🎉
-            </div>
-          `;
-        }, 1000);
-      }
-      
-      document.getElementById('anlamIkonu').addEventListener('click', function() {
-        const anlamAciklama = document.getElementById('anlamAciklama');
-        anlamAciklama.style.display = anlamAciklama.style.display === 'none' ? 'block' : 'none';
-      });
-    }
-  </script>
-
-  <style>
-    .tebrik-mesaji {
-      margin-top: 15px;
-      padding: 10px;
-      background: rgba(255, 215, 0, 0.2);
-      border-radius: 8px;
-      animation: pulse 1s infinite;
-    }
-  </style>
+  <script src="script.js"></script>
 </body>
 </html>
