@@ -17,35 +17,31 @@
 - HTML5
 - CSS3 (Gradient Animations, Flexbox)
 - JavaScript (ES6+)
-- JSON (Veri Yönetimi)
+
 
 ## 📂 Proje Yapısı
 
 ```
 sozpatlat/
-├── index.html          # Ana HTML dosyası
-├── style.css           # Stil dosyası
-├── script.js           # JavaScript mantığı
-├── sozler.json         # Sözler veritabanı
-├── favicon.png         # Site ikonu
-├── site.webmanifest    # PWA yapılandırması
-└── README.md           # Proje dokümantasyonu
-```
+├── index.html         
+├── style.css          
+├── script.js                 
+├── favicon.png                      
+└── README.md           
+``
 
 ## 🎯 Kullanım
 
 1. Bir kategori seçin (Espri, Atasözü, Deyim, Romantik, Bilimsel)
 2. "Rastgele Söyle" butonuna tıklayın
-3. Çıkan sözün anlamını görmek için "?" ikonuna tıklayın
-4. Her 5 patlamada özel tebrik mesajı kazanın!
 
 ## 🌟 Özellikler
 
 - **Kategori Bazlı Filtreleme**: İstediğiniz kategoriden söz seçebilirsiniz
 - **Anlam Açıklaması**: Her sözün detaylı açıklaması mevcut
-- **Patlama Efekti**: Her tıklamada farklı emoji ve animasyonlar
-- **Aynı Sözü Göstermeme**: Tekrar önleme algoritması
-- **Patlama Sayacı**: Kaç söz patlattığınızı takip edin
+
+
+
 
 
 
